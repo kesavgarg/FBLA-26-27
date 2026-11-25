@@ -104,22 +104,22 @@ begin
 
   -- 1. Clear everything that a demo run creates (children first).
   --    usability_sessions is deliberately NOT cleared.
-  delete from public.messages;
-  delete from public.refill_requests;
-  delete from public.order_items;
-  delete from public.orders;
-  delete from public.prescriptions;
-  delete from public.consult_requests;
-  delete from public.symptom_logs;
-  delete from public.pickup_slots;
-  delete from public.audit_logs;
+  delete from public.messages where true; -- "where true": Supabase blocks DELETE without WHERE via the API
+  delete from public.refill_requests where true; -- "where true": Supabase blocks DELETE without WHERE via the API
+  delete from public.order_items where true; -- "where true": Supabase blocks DELETE without WHERE via the API
+  delete from public.orders where true; -- "where true": Supabase blocks DELETE without WHERE via the API
+  delete from public.prescriptions where true; -- "where true": Supabase blocks DELETE without WHERE via the API
+  delete from public.consult_requests where true; -- "where true": Supabase blocks DELETE without WHERE via the API
+  delete from public.symptom_logs where true; -- "where true": Supabase blocks DELETE without WHERE via the API
+  delete from public.pickup_slots where true; -- "where true": Supabase blocks DELETE without WHERE via the API
+  delete from public.audit_logs where true; -- "where true": Supabase blocks DELETE without WHERE via the API
   delete from public.allergies where profile_id in (v_margaret, v_daniel)
     or family_member_id in (select id from public.family_members where owner_id in (v_margaret, v_daniel));
   delete from public.current_medications where profile_id in (v_margaret, v_daniel);
   delete from public.family_members where owner_id in (v_margaret, v_daniel);
-  delete from public.inventory;
-  delete from public.products;
-  delete from public.store_settings;
+  delete from public.inventory where true; -- "where true": Supabase blocks DELETE without WHERE via the API
+  delete from public.products where true; -- "where true": Supabase blocks DELETE without WHERE via the API
+  delete from public.store_settings where true; -- "where true": Supabase blocks DELETE without WHERE via the API
 
   -- 2. Store settings. Hours are ASSUMED demo hours (the real store reports
   --    being closed on Sundays; weekday hours were not verified).
