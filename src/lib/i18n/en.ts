@@ -26,6 +26,24 @@ export const en = {
     heroTitle: "Your hometown pharmacy, now open online",
     heroBody:
       "Order everyday health essentials, refill prescriptions and choose pickup or delivery from downtown Cumming.",
+    heroNote: "Pickup at 116 W. Maple St. · Closed Sundays",
+    refillLabel: "Prescription refills",
+    refillTitle: "Refill in three taps, pick up on your way home",
+    refillBody: "No phone tree and no waiting on hold. Your pharmacist sees the request the moment you send it.",
+    refillSteps: [
+      { title: "Sign in with Touch ID", body: "Your fingerprint unlocks your account. No password to remember." },
+      { title: "Choose your prescription", body: "We show which ones can be refilled and how many refills are left." },
+      { title: "Pick a time", body: "Choose a 30-minute pickup window or delivery around Cumming." },
+    ],
+    refillCta: "Sign in to refill",
+    heritageTitle: "Downtown Cumming’s pharmacy since 1959",
+    heritageBody:
+      "The Goodson family has filled prescriptions on Maple Street for more than sixty years. This project imagines how that service could work online.",
+    heritage: [
+      { year: "1959", text: "Jim Goodson Sr. opens the pharmacy on July 24, across from today’s courthouse annex." },
+      { year: "1970", text: "The store moves to 116 W. Maple St., where it still stands." },
+      { year: "2025", text: "After a November 2024 fire, it reopens on December 29 at the same address." },
+    ],
   },
   demo: {
     banner:

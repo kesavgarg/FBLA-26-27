@@ -9,8 +9,10 @@ import { cx } from "@/lib/utils";
  *   secondary white with a border, for the second choice
  *   quiet     text-only, for low-emphasis actions like "Skip for now"
  *   danger    for destructive actions (remove, cancel order)
+ *   bright    the main action on a dark (navy or glass) background
+ *   outline   the second action on a dark background
  */
-export type ButtonVariant = "primary" | "secondary" | "quiet" | "danger";
+export type ButtonVariant = "primary" | "secondary" | "quiet" | "danger" | "bright" | "outline";
 export type ButtonSize = "md" | "lg";
 
 const BASE =
@@ -23,6 +25,8 @@ const VARIANTS: Record<ButtonVariant, string> = {
   secondary: "bg-canvas text-ink border border-line-strong hover:border-action hover:text-action",
   quiet: "text-action hover:bg-sky-50",
   danger: "bg-canvas text-danger border border-danger/40 hover:bg-danger-soft",
+  bright: "bg-sky-300 text-ink hover:bg-white",
+  outline: "border border-white/35 text-white hover:border-sky-300 hover:text-sky-300",
 };
 
 const SIZES: Record<ButtonSize, string> = {

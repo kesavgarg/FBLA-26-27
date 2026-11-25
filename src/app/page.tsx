@@ -1,45 +1,130 @@
 import { ArrowRight, Fingerprint } from "lucide-react";
-import { ButtonLink } from "@/components/ui/button";
+import { HeroWordmark } from "@/components/home/hero-wordmark";
+import { LiquidGlass } from "@/components/effects/liquid-glass";
+import { ButtonLink, buttonClasses } from "@/components/ui/button";
 import { getSessionUser } from "@/lib/auth/session";
 import { homePathForRole } from "@/lib/auth/roles";
 import { getDictionary } from "@/lib/i18n/server";
+import Link from "next/link";
 
 /**
- * Home page (foundation version). Phase 3 adds search, featured products,
- * categories, quick refill and order tracking sections.
+ * Home page.
+ *   1. Hero: navy ground, the interactive "Goodson" wordmark, the promise.
+ *   2. Refill band: the three-step refill, on a liquid-glass surface.
+ *   3. Heritage: three dates from the store's public history.
+ * Phase 3 adds search, featured products, categories and order tracking.
  */
 export default async function HomePage() {
   const [{ t }, user] = await Promise.all([getDictionary(), getSessionUser()]);
+  const primaryHref = user ? homePathForRole(user.role) : "/login";
 
   return (
-    <section className="border-b border-line bg-sky-50">
-      <div className="wrap flex flex-col gap-8 py-20 lg:py-28">
-        <p className="text-sm font-semibold text-action">{t.brand.since}</p>
-        <h1 className="max-w-3xl text-[2.6rem] leading-[1.08] font-semibold tracking-tight sm:text-[3.4rem]">
-          {t.home.heroTitle}
-        </h1>
-        <p className="max-w-2xl text-xl text-ink/80">{t.home.heroBody}</p>
-        <p className="font-serif text-2xl text-ink">
-          “{t.brand.motto}”
-          {t.brand.mottoNote && <span className="block text-lg text-muted">{t.brand.mottoNote}</span>}
-        </p>
-        <div className="flex flex-wrap gap-3">
-          {user ? (
-            <ButtonLink href={homePathForRole(user.role)} size="lg" icon={<ArrowRight className="size-5" aria-hidden="true" />}>
-              {t.nav.account}
-            </ButtonLink>
-          ) : (
-            <>
-              <ButtonLink href="/login" size="lg" icon={<Fingerprint className="size-5" aria-hidden="true" />}>
-                {t.nav.signIn}
-              </ButtonLink>
-              <ButtonLink href="/register" size="lg" variant="secondary">
-                {t.auth.createAccount}
-              </ButtonLink>
-            </>
-          )}
+    <>
+      {/* 1. Hero ------------------------------------------------------- */}
+      <section className="relative overflow-hidden bg-[#0B1E30] text-white" aria-labelledby="hero-title">
+        <div className="wrap flex flex-wrap items-center justify-between gap-3 pt-10 text-[0.94rem] text-sky-100/80 lg:pt-14">
+          <p className="font-medium text-sky-300">{t.brand.since}</p>
+          <p>{t.home.heroNote}</p>
         </div>
-      </div>
-    </section>
+
+        <HeroWordmark />
+
+        <div className="wrap grid gap-10 pb-14 lg:grid-cols-[1.25fr_1fr] lg:items-end lg:pb-20">
+          <div className="flex flex-col gap-5">
+            <h1 id="hero-title" className="max-w-2xl text-[2.3rem] leading-[1.08] font-semibold tracking-tight sm:text-[3.2rem]">
+              {t.home.heroTitle}
+            </h1>
+            <p className="max-w-xl text-lg text-sky-100/85 sm:text-xl">{t.home.heroBody}</p>
+          </div>
+          <div className="flex flex-col gap-6 lg:items-end">
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href={primaryHref}
+                className={buttonClasses("bright", "lg")}
+              >
+                {user ? <ArrowRight className="size-5" aria-hidden="true" /> : <Fingerprint className="size-5" aria-hidden="true" />}
+                {user ? t.nav.account : t.nav.signIn}
+              </Link>
+              {!user && (
+                <Link
+                  href="/register"
+                  className={buttonClasses("outline", "lg")}
+                >
+                  {t.auth.createAccount}
+                </Link>
+              )}
+            </div>
+            <p className="font-serif text-xl text-sky-100 lg:text-right">
+              “{t.brand.motto}”
+              {t.brand.mottoNote && <span className="block text-base text-sky-100/70">{t.brand.mottoNote}</span>}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Refill band -------------------------------------------------- */}
+      <section className="py-16 lg:py-24" aria-labelledby="refill-title">
+        <div className="wrap">
+          <LiquidGlass className="rounded-[28px] text-white">
+            <div className="grid gap-10 p-8 sm:p-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:p-16">
+              <div className="flex flex-col items-start gap-5">
+                <p className="rounded-[var(--radius-pill)] border border-white/25 bg-white/10 px-3 py-1 text-sm font-medium backdrop-blur-md">
+                  {t.home.refillLabel}
+                </p>
+                <h2 id="refill-title" className="text-[2rem] leading-tight font-semibold tracking-tight sm:text-[2.6rem]">
+                  {t.home.refillTitle}
+                </h2>
+                <p className="max-w-md text-lg text-white/85">{t.home.refillBody}</p>
+                <ButtonLink
+                  href={primaryHref}
+                  size="lg"
+                  variant="bright"
+                  className="mt-2"
+                  icon={<Fingerprint className="size-5" aria-hidden="true" />}
+                >
+                  {user ? t.nav.account : t.home.refillCta}
+                </ButtonLink>
+              </div>
+              <ol className="flex flex-col gap-3">
+                {t.home.refillSteps.map((step, index) => (
+                  <li
+                    key={step.title}
+                    className="flex gap-5 rounded-[var(--radius-card)] border border-white/20 bg-white/10 p-5 backdrop-blur-xl sm:p-6"
+                  >
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white font-semibold text-ink tabular">
+                      {index + 1}
+                    </span>
+                    <div>
+                      <h3 className="text-lg font-semibold">{step.title}</h3>
+                      <p className="text-white/80">{step.body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </LiquidGlass>
+        </div>
+      </section>
+
+      {/* 3. Heritage ------------------------------------------------------ */}
+      <section className="border-t border-line bg-sky-50 py-16 lg:py-24" aria-labelledby="heritage-title">
+        <div className="wrap grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+          <div className="flex flex-col gap-4">
+            <h2 id="heritage-title" className="font-serif text-[2.1rem] leading-tight font-semibold tracking-tight sm:text-[2.6rem]">
+              {t.home.heritageTitle}
+            </h2>
+            <p className="max-w-md text-lg text-ink/80">{t.home.heritageBody}</p>
+          </div>
+          <ol className="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-sky-200 bg-sky-200 sm:grid-cols-3">
+            {t.home.heritage.map((item) => (
+              <li key={item.year} className="flex flex-col gap-3 bg-canvas p-6">
+                <span className="font-serif text-[2.4rem] leading-none font-semibold text-action tabular">{item.year}</span>
+                <p className="text-ink/85">{item.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    </>
   );
 }

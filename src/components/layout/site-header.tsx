@@ -33,7 +33,7 @@ export async function SiteHeader({ display }: { display: DisplayPrefs }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-canvas/90 backdrop-blur-md">
-      <div className="wrap flex h-[4.5rem] items-center gap-6">
+      <div className="wrap flex h-[4.5rem] items-center gap-3 sm:gap-6">
         <a href="#main" className="skip-link">
           {t.nav.skip}
         </a>
@@ -67,10 +67,12 @@ export async function SiteHeader({ display }: { display: DisplayPrefs }) {
               </button>
             </form>
           ) : (
-            <Link href="/login" className={buttonClasses("primary", "md", "hidden lg:inline-flex")}>
-              <UserRound className="size-4" aria-hidden="true" />
-              {t.nav.signIn}
-            </Link>
+            <div className="hidden lg:block">
+              <Link href="/login" className={buttonClasses("primary")}>
+                <UserRound className="size-4" aria-hidden="true" />
+                {t.nav.signIn}
+              </Link>
+            </div>
           )}
           <MobileMenu links={links} signedIn={Boolean(user)} />
         </div>

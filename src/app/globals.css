@@ -107,9 +107,9 @@ body {
 
 /* Skip link: hidden until a keyboard user presses Tab. */
 .skip-link {
-  position: absolute;
+  position: fixed;
   left: 16px;
-  top: -64px;
+  top: 12px;
   z-index: 100;
   padding: 10px 16px;
   border-radius: var(--radius-pill);
@@ -117,8 +117,14 @@ body {
   color: #fff;
   font-weight: 600;
 }
-.skip-link:focus {
-  top: 12px;
+.skip-link:not(:focus) {
+  /* Visually hidden but still reachable by keyboard and screen readers. */
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  white-space: nowrap;
 }
 
 /* Shared content width: equal left and right edges on every page. */

@@ -43,3 +43,11 @@ export function displayAttributes(prefs: DisplayPrefs): Record<string, string | 
     "data-motion": prefs.reduceMotion ? "reduce" : undefined,
   };
 }
+
+/**
+ * Browser only: save the preferences cookie immediately, so a reload right
+ * after a change keeps it (the server action that follows also validates it).
+ */
+export function writeDisplayCookieInBrowser(prefs: DisplayPrefs): void {
+  document.cookie = `${DISPLAY_COOKIE}=${encodeDisplay(prefs)}; path=/; max-age=31536000; samesite=lax`;
+}

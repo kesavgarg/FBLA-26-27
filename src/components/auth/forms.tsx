@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { startTransition, useActionState, type FormEvent } from "react";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
@@ -15,6 +15,19 @@ import { useI18n } from "@/lib/i18n/provider";
 
 const INITIAL: FormState = { status: "idle" };
 
+/**
+ * Submit a form to a Server Action WITHOUT React's automatic form reset.
+ * If the server finds a problem, everything the person typed (including the
+ * password and checkboxes) stays in place, so they only fix the one field.
+ */
+function submitWithoutReset(dispatch: (formData: FormData) => void) {
+  return (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    startTransition(() => dispatch(formData));
+  };
+}
+
 /** Email + password sign-in (fallback when a passkey isn't available). */
 export function PasswordSignInForm({ next }: { next?: string }) {
   const { t } = useI18n();
@@ -25,7 +38,7 @@ export function PasswordSignInForm({ next }: { next?: string }) {
   };
 
   return (
-    <form action={action} className="flex flex-col gap-4" noValidate>
+    <form onSubmit={submitWithoutReset(action)} className="flex flex-col gap-4" noValidate>
       {next && <input type="hidden" name="next" value={next} />}
       <Field id="signin-email" label={t.auth.email} error={err("email")}>
         {(describedBy, invalid) => (
@@ -74,7 +87,7 @@ export function RegisterForm() {
   const today = new Date().toISOString().slice(0, 10);
 
   return (
-    <form action={action} className="flex flex-col gap-4" noValidate>
+    <form onSubmit={submitWithoutReset(action)} className="flex flex-col gap-4" noValidate>
       {/* Honeypot for bots: hidden from people and screen readers. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
         <label>
@@ -157,7 +170,7 @@ export function RecoverForm() {
   }
 
   return (
-    <form action={action} className="flex flex-col gap-4" noValidate>
+    <form onSubmit={submitWithoutReset(action)} className="flex flex-col gap-4" noValidate>
       <Field id="recover-email" label={t.auth.email} error={emailError}>
         {(d, invalid) => (
           <Input id="recover-email" name="email" type="email" autoComplete="email" inputMode="email"

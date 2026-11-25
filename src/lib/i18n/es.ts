@@ -23,6 +23,25 @@ export const es: Dictionary = {
     heroTitle: "Su farmacia de siempre, ahora en línea",
     heroBody:
       "Pida productos de salud, resurta recetas y elija recoger o entrega a domicilio desde el centro de Cumming.",
+    heroNote: "Recoja en 116 W. Maple St. · Cerrado los domingos",
+    refillLabel: "Resurtido de recetas",
+    refillTitle: "Resurta en tres toques y recoja de camino a casa",
+    refillBody:
+      "Sin menús telefónicos ni esperas. Su farmacéutico ve la solicitud en cuanto la envía.",
+    refillSteps: [
+      { title: "Entre con Touch ID", body: "Su huella abre su cuenta. No hay contraseña que recordar." },
+      { title: "Elija su receta", body: "Le mostramos cuáles se pueden resurtir y cuántos resurtidos quedan." },
+      { title: "Elija una hora", body: "Escoja un horario de 30 minutos para recoger o entrega en Cumming." },
+    ],
+    refillCta: "Entrar para resurtir",
+    heritageTitle: "La farmacia del centro de Cumming desde 1959",
+    heritageBody:
+      "La familia Goodson ha surtido recetas en Maple Street por más de sesenta años. Este proyecto imagina cómo ese servicio podría funcionar en línea.",
+    heritage: [
+      { year: "1959", text: "Jim Goodson Sr. abre la farmacia el 24 de julio, frente al actual anexo del juzgado." },
+      { year: "1970", text: "La tienda se muda a 116 W. Maple St., donde sigue hoy." },
+      { year: "2025", text: "Tras un incendio en noviembre de 2024, reabre el 29 de diciembre en la misma dirección." },
+    ],
   },
   demo: {
     banner:

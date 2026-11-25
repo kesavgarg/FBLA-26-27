@@ -4,7 +4,7 @@ import { Accessibility, Check, Languages } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { setDisplayPrefsAction, setLocaleAction } from "@/lib/preferences/actions";
-import { displayAttributes, type DisplayPrefs } from "@/lib/preferences/display";
+import { displayAttributes, writeDisplayCookieInBrowser, type DisplayPrefs } from "@/lib/preferences/display";
 import { useI18n } from "@/lib/i18n/provider";
 import { cx } from "@/lib/utils";
 
@@ -97,6 +97,9 @@ export function AccessibilityMenu({ initial }: { initial: DisplayPrefs }) {
       if (value) html.setAttribute(attr, value);
       else html.removeAttribute(attr);
     }
+    // Save straight away in the browser so a reload keeps the setting, then
+    // confirm on the server (which validates the values).
+    writeDisplayCookieInBrowser(next);
     void setDisplayPrefsAction(next);
   }
 

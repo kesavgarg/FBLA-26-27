@@ -1,16 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { DemoBanner, SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { fraunces, inter } from "@/lib/fonts";
 import { I18nProvider } from "@/lib/i18n/provider";
 import { getDictionary } from "@/lib/i18n/server";
 import { DISPLAY_COOKIE, decodeDisplay, displayAttributes } from "@/lib/preferences/display";
 import "./globals.css";
 
-// Inter for interface text; Fraunces (a serif) only for brand and heritage headings.
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
-const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], display: "swap", weight: ["500", "600"] });
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getDictionary();

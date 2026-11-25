@@ -6,7 +6,7 @@ FBLA Introduction to Programming 2026–27 · Topic: **Local Business Digital Or
 
 Goodson Drug Co. has served Cumming since 1959 under the motto *"We Serve to Serve Again."* This platform carries that service online: customers browse and order, request refills, log symptoms and request a consult, and a (simulated) doctor must approve before any prescription item can be bought.
 
-**Build status:** Phase 2 (foundation) complete — accounts, passkeys, roles, database, security. Ordering, health workflow and analytics arrive in Phases 3–5. See [docs/00-phase1-plan.md](docs/00-phase1-plan.md).
+**Build status:** Phase 2 (foundation) complete and deployed at https://goodson-ordering.vercel.app — accounts, passkeys, roles, database, security, redesigned home and sign-in. Ordering, health workflow and analytics arrive in Phases 3–5. See [docs/00-phase1-plan.md](docs/00-phase1-plan.md).
 
 ---
 
@@ -81,6 +81,8 @@ Where each feature lives: [docs/feature-map.md](docs/feature-map.md).
 
 - Business facts: public reporting (Forsyth County News; business listings) as summarized in the project's research guide. Facts may change and were not confirmed with the business.
 - Design references: [awesome-design-md](https://github.com/VoltAgent/awesome-design-md) (MIT) Apple/Stripe/Supabase notes in `design-reference/`; [tasteskill](https://www.tasteskill.dev/) and Vercel's [web-design-guidelines](https://github.com/vercel-labs/agent-skills) review rules.
+- Visual effects (adapted, see file headers): **Prismatic Liquid Glass** shader generated with [Shader Studio](https://shaderstudio.com) → `src/components/effects/liquid-glass.tsx`; **Vector Wordmark** by Originkit → `src/components/effects/vector-wordmark.tsx`. Both supplied by the team, changed to be decorative-only, respect reduced motion, and fall back to CSS without WebGL.
+- Design process skills: [image-to-code](https://github.com/Leonxlnx/imagegen-skills) (used with the team's template screenshots as the reference image), tasteskill, web-design-guidelines, Playwright CLI.
 - Development assistance: built with help from an AI coding assistant (Claude Code). The student team reviewed the code and must be able to explain every part of it.
 - No Goodson Drug Co. logos or photographs are used. The "G" mark is an original design for this project.
 

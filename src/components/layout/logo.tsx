@@ -27,7 +27,9 @@ export function Logo({ compact = false }: { compact?: boolean }) {
       {!compact && (
         <span className="flex flex-col leading-none">
           <span className="font-serif text-[1.3rem] font-semibold tracking-tight text-ink">Goodson</span>
-          <span className="mt-0.5 text-[0.8rem] font-medium text-muted">Drug Co. · Cumming, GA</span>
+          <span className="mt-0.5 text-[0.8rem] font-medium whitespace-nowrap text-muted">
+            Drug Co.<span className="hidden sm:inline"> · Cumming, GA</span>
+          </span>
         </span>
       )}
     </Link>
