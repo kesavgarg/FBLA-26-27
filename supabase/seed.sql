@@ -1,0 +1,2 @@
+-- Demo data is loaded by scripts/seed-demo-users.mjs (npm run seed:users),
+-- because the demo accounts must be created through Supabase Auth first.

@@ -1,0 +1,140 @@
+/*
+ * Goodson Drug Co. design system
+ * --------------------------------
+ * One token set for the whole app: white + baby blue, navy ink.
+ * Every colour, radius and shadow used in components comes from here.
+ * Accessibility modes are switched with data attributes on <html>:
+ *   data-text="large"      bigger base type
+ *   data-contrast="high"   stronger borders and darker text
+ *   data-motion="reduce"   no transitions
+ */
+@import "tailwindcss";
+
+@theme {
+  /* Fonts (loaded with next/font in layout.tsx) */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  /* Brand palette */
+  --color-canvas: #ffffff;
+  --color-sky-50: #f1f8fc;
+  --color-sky-100: #d9eefb;
+  --color-sky-200: #c3e3f8;
+  --color-sky-300: #a9d8f5;
+  --color-action: #1f6fa8; /* buttons + links: 5.4:1 on white */
+  --color-action-strong: #185a8a; /* hover / pressed */
+  --color-ink: #18324b; /* body text: 13.2:1 on white */
+  --color-muted: #5b6b7f; /* labels + meta: 5.4:1 on white */
+  --color-line: #e5edf3; /* hairlines */
+  --color-line-strong: #c9d6e1;
+
+  /* Status colours: always paired with an icon and words */
+  --color-success: #1e7a4f;
+  --color-success-soft: #e6f4ec;
+  --color-warning: #9a6200;
+  --color-warning-soft: #fdf3e1;
+  --color-danger: #b42318;
+  --color-danger-soft: #fdeceb;
+
+  /* Shape */
+  --radius-field: 12px;
+  --radius-card: 20px;
+  --radius-pill: 999px;
+
+  /* Elevation: one soft shadow, one lifted shadow */
+  --shadow-soft: 0 1px 2px rgb(24 50 75 / 0.05), 0 4px 16px rgb(24 50 75 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(24 50 75 / 0.06), 0 12px 32px rgb(24 50 75 / 0.1);
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: light;
+  /* Base type size. Large Text mode raises it, and every rem-based size follows. */
+  font-size: 106.25%; /* 17px */
+}
+
+html[data-text="large"] {
+  font-size: 125%; /* 20px */
+}
+
+/* High contrast: darker secondary text, stronger borders, underlined links. */
+html[data-contrast="high"] {
+  --color-muted: #2f3f52;
+  --color-line: #8aa0b4;
+  --color-line-strong: #4f6880;
+  --color-action: #0f4c7a;
+  --color-sky-50: #ffffff;
+}
+html[data-contrast="high"] a {
+  text-decoration: underline;
+}
+
+/* Reduced motion: from the OS setting or from the in-app toggle. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+html[data-motion="reduce"] *,
+html[data-motion="reduce"] *::before,
+html[data-motion="reduce"] *::after {
+  animation-duration: 0.01ms !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Visible focus ring for keyboard users everywhere. */
+:focus-visible {
+  outline: 3px solid var(--color-action);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Skip link: hidden until a keyboard user presses Tab. */
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -64px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: #fff;
+  font-weight: 600;
+}
+.skip-link:focus {
+  top: 12px;
+}
+
+/* Shared content width: equal left and right edges on every page. */
+.wrap {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (min-width: 1024px) {
+  .wrap {
+    padding-inline: 48px;
+  }
+}
+
+/* Numbers in prices and tables line up. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
