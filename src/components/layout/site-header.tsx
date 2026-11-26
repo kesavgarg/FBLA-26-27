@@ -27,6 +27,7 @@ export function navLinksFor(t: Dictionary, role: Role | null): NavLink[] {
   if (role) {
     links.push({ href: "/account/orders", label: t.nav.orders });
     links.push({ href: "/account/prescriptions", label: t.nav.refills });
+    links.push({ href: "/account/health", label: t.nav.health });
   }
   if (role === "customer") links.push({ href: "/account", label: t.nav.account });
   if (role === "staff" || role === "owner") links.push({ href: "/staff", label: t.nav.staff });

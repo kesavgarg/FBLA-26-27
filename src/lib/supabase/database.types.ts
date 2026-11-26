@@ -160,7 +160,9 @@ export type Database = {
           status: Database["public"]["Enums"]["consult_status"];
           summary: string;
           symptom_log_id: string | null;
+          triage_result: Database["public"]["Enums"]["triage_outcome"] | null;
           updated_at: string;
+          wearable_snapshot: Json | null;
         };
         ComputedFields: never;
         Insert: {
@@ -178,7 +180,9 @@ export type Database = {
           status?: Database["public"]["Enums"]["consult_status"];
           summary: string;
           symptom_log_id?: string | null;
+          triage_result?: Database["public"]["Enums"]["triage_outcome"] | null;
           updated_at?: string;
+          wearable_snapshot?: Json | null;
         };
         Update: {
           allergies_snapshot?: string[];
@@ -195,7 +199,9 @@ export type Database = {
           status?: Database["public"]["Enums"]["consult_status"];
           summary?: string;
           symptom_log_id?: string | null;
+          triage_result?: Database["public"]["Enums"]["triage_outcome"] | null;
           updated_at?: string;
+          wearable_snapshot?: Json | null;
         };
         Relationships: [
           {
@@ -296,6 +302,22 @@ export type Database = {
             referencedColumns: ["id"];
           },
         ];
+      };
+      ingredient_classes: {
+        Row: {
+          drug_class: string;
+          ingredient: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          drug_class: string;
+          ingredient: string;
+        };
+        Update: {
+          drug_class?: string;
+          ingredient?: string;
+        };
+        Relationships: [];
       };
       inventory: {
         Row: {
@@ -1033,6 +1055,19 @@ export type Database = {
         Returns: Database["public"]["Enums"]["user_role"];
       };
       demo_user_id: { Args: { p_key: string }; Returns: string };
+      doctor_decide_consult: {
+        Args: {
+          p_consult: string;
+          p_decision: string;
+          p_directions?: string;
+          p_note: string;
+          p_product?: string;
+          p_refills?: number;
+          p_valid_days?: number;
+        };
+        Returns: Json;
+      };
+      doctor_open_consult: { Args: { p_consult: string }; Returns: undefined };
       ensure_pickup_slots: { Args: { p_days?: number }; Returns: number };
       is_care_team: { Args: Record<PropertyKey, never>; Returns: boolean };
       is_doctor: { Args: Record<PropertyKey, never>; Returns: boolean };
@@ -1059,6 +1094,10 @@ export type Database = {
           p_zip?: string;
         };
         Returns: Json;
+      };
+      reply_to_consult: {
+        Args: { p_consult: string; p_reply: string };
+        Returns: undefined;
       };
       request_refill: {
         Args: {
@@ -1088,6 +1127,53 @@ export type Database = {
           target_user: string;
         };
         Returns: undefined;
+      };
+      staff_add_product: {
+        Args: {
+          p_active_ingredient?: string;
+          p_category: Database["public"]["Enums"]["product_category"];
+          p_description: string;
+          p_description_es: string;
+          p_name: string;
+          p_name_es: string;
+          p_price_cents: number;
+          p_quantity: number;
+        };
+        Returns: string;
+      };
+      staff_message_order: {
+        Args: { p_body: string; p_order: string };
+        Returns: undefined;
+      };
+      staff_set_order_status: {
+        Args: {
+          p_order: string;
+          p_reason?: string;
+          p_status: Database["public"]["Enums"]["order_status"];
+        };
+        Returns: undefined;
+      };
+      staff_set_refill_status: {
+        Args: {
+          p_note?: string;
+          p_refill: string;
+          p_status: Database["public"]["Enums"]["refill_status"];
+        };
+        Returns: undefined;
+      };
+      staff_update_product: {
+        Args: {
+          p_is_active: boolean;
+          p_low_stock_threshold?: number;
+          p_price_cents: number;
+          p_product: string;
+          p_quantity: number;
+        };
+        Returns: undefined;
+      };
+      submit_consult: {
+        Args: { p_summary: string; p_symptom_log: string };
+        Returns: string;
       };
     };
     Enums: {

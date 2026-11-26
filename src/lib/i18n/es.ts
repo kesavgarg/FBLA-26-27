@@ -1,4 +1,5 @@
 import type { Dictionary } from "./en";
+import { esHealth } from "./es-health";
 import { esShop } from "./es-shop";
 
 /**
@@ -7,6 +8,7 @@ import { esShop } from "./es-shop";
  */
 export const es: Dictionary = {
   ...esShop,
+  ...esHealth,
   meta: {
     title: "Goodson Drug Co. — Pedidos en línea",
     description:
@@ -135,6 +137,7 @@ export const es: Dictionary = {
   },
   errors: {
     ...esShop.orderErrors,
+    ...esHealth.healthErrors,
     generic: "Algo salió mal. Inténtelo de nuevo.",
     required: "Este campo es obligatorio.",
     email: "Ingrese un correo como nombre@ejemplo.com.",

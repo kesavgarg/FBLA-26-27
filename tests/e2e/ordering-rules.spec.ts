@@ -81,11 +81,13 @@ test("a prescription item cannot be bought without an approved prescription", as
   const noRx = await margaret.rpc("set_cart_quantity", { p_product: benzonatate, p_quantity: 1 });
   expect(noRx.error?.message).toMatch(/^RX_REQUIRED:Benzonatate/);
 
-  // Someone else's prescription doesn't work either (RLS hides it, and the
-  // database function checks the patient anyway).
+  // Someone else's prescription doesn't work either: Daniel tries to use
+  // Margaret's lisinopril prescription (no allergy involved, so this tests
+  // only the "must belong to this patient" rule).
   const admin = createClient(url, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
-  const { data: danielsRx } = await admin.from("prescriptions").select("id, product_id").eq("rx_number", "RX-100240").single();
-  const stolen = await margaret.rpc("set_cart_quantity", { p_product: danielsRx!.product_id, p_quantity: 1, p_prescription: danielsRx!.id });
+  const { data: margaretsRx } = await admin.from("prescriptions").select("id, product_id").eq("rx_number", "RX-100231").single();
+  const daniel = await signIn(DEMO.daniel);
+  const stolen = await daniel.rpc("set_cart_quantity", { p_product: margaretsRx!.product_id, p_quantity: 1, p_prescription: margaretsRx!.id });
   expect(stolen.error?.message).toMatch(/^RX_REQUIRED:/);
 });
 

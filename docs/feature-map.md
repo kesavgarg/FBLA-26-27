@@ -43,3 +43,20 @@ Updated at the end of every phase. Use it to answer "show us the code for X" in 
 | Product art (no stock photos) | `src/components/shop/product-visual.tsx` | `ProductVisual` |
 | English / Spanish shop text | `src/lib/i18n/en-shop.ts`, `es-shop.ts` | |
 | Tests | `tests/unit/ordering-rules.test.ts`, `tests/e2e/ordering-rules.spec.ts`, `tests/e2e/shopping.spec.ts` | includes the two-buyers race test |
+
+## Phase 4 — Health workflow, doctor approvals, staff tools
+
+| Feature | Files | Key functions / objects |
+|---|---|---|
+| Database: consults, doctor decisions, staff actions, drug classes | `supabase/migrations/20261126000007_health_workflow.sql` | `submit_consult`, `reply_to_consult`, `doctor_open_consult`, `doctor_decide_consult` (only approval creates an Rx), `staff_set_order_status`, `staff_set_refill_status`, `staff_update_product`, `staff_add_product`, `staff_message_order`, `ingredient_classes`, class-aware `allergy_conflict` |
+| Guided symptom check (demo rules, separate module) | `src/lib/domain/triage.ts` | `triageSymptoms`, `RED_FLAGS`, `THRESHOLDS` |
+| Allergy + interaction checks (fictional demo tables) | `src/lib/domain/safety.ts` | `findAllergyConflict`, `findInteractions`, `INTERACTION_RULES` |
+| Apple Watch sample import (honest demo) | `src/lib/domain/wearable.ts`, `src/components/health/watch-import.tsx`, `docs/future-healthkit.md` | `sampleWearableData`, `validateWearableImport`, `WatchImport` |
+| Allowed next steps (mirrors the database) | `src/lib/domain/workflow.ts` | `nextOrderStatus`, `nextRefillStatus`, `doctorCanDecide`, `journeyProgress` |
+| Health validation | `src/lib/validation/health.ts` | `symptomCheckSchema`, `consultSummarySchema`, `allergySchema` |
+| Customer health screens | `src/app/account/health`, `health/check`, `account/consults`; `src/components/health/*` | `SymptomCheckWizard`, `TriageResultView`, `SeverityChart` (plain SVG), `HealthProfileEditor`, `ApprovalJourney`, `ConsultReplyForm` |
+| Customer health actions | `src/lib/actions/health.ts` | `submitSymptomCheckAction` (server runs triage), `submitConsultAction`, `replyToConsultAction`, `addAllergyAction`, `addMedicationAction` |
+| Doctor screens + actions | `src/app/doctor`, `doctor/consults/[id]`, `src/components/doctor/decision-form.tsx`, `src/lib/data/doctor.ts`, `src/lib/actions/doctor.ts` | `listConsultQueue`, `getConsultReview` (pre-checks allergies + interactions), `decideConsultAction`, `startReviewAction` |
+| Staff screens + actions | `src/app/staff`, `staff/orders/[id]`, `staff/refills`, `staff/inventory`, `src/components/staff/*`, `src/lib/data/staff.ts`, `src/lib/actions/staff.ts` | `listOrdersForStaff` (filters + search), `getOrderForStaff` (safety check), `ActionForm`, `setOrderStatusAction`, `setRefillStatusAction`, `updateProductAction`, `addProductAction`, `sendOrderMessageAction` |
+| English / Spanish health text | `src/lib/i18n/en-health.ts`, `es-health.ts` | (staff and doctor screens are English-only) |
+| Tests | `tests/unit/health-rules.test.ts`, `tests/e2e/workflow.spec.ts` | full demo sequence + deny + needs-info + emergency + inventory + role protection |

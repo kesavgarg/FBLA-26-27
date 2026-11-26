@@ -11,6 +11,9 @@ export default defineConfig({
   fullyParallel: false, // tests share one demo database
   workers: 1,
   retries: 0,
+  // The dev server compiles each page on its first visit; allow for that.
+  timeout: 60_000,
+  expect: { timeout: 15_000 },
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: process.env.E2E_BASE_URL ?? "http://localhost:3000",

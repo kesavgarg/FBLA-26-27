@@ -58,6 +58,10 @@ These call Supabase directly with the public key, as an attacker could from a br
 | 2026-11-26 | Phase 3 customer journey (browser) | found 2 + fixed → 6 / 6 passed | Bugs found: cart error showed a raw `{1}` placeholder (database sent too little detail; fixed in `set_cart_quantity`); refill confirmation disappeared on refresh (now shown on the card). |
 | 2026-11-26 | Full suite | 44 unit + 27 browser/database passed | |
 | 2026-11-26 | Visual check | fixed | Checkout overflowed by 391 px on phones (fieldsets grow to fit the pickup-day row; added `min-w-0`). Dashboard, product, cart, checkout, prescriptions, orders checked at 1440 and 390 px. |
+| 2026-11-26 | Phase 4 unit tests | 57 / 57 passed | Triage (3 outcomes, red-flag priority, boundaries, no medicine names), allergy by ingredient and class, interactions, Apple Watch sample validation (ranges, types, future date, must be labelled simulated), workflow steps |
+| 2026-11-26 | Phase 4 workflow (browser) | found 3 + fixed → 6 / 6 passed | **Full FBLA demo sequence passes**: survey + watch sample → consult → doctor approves (penicillin-class item blocked for Margaret) → Rx unlocked → checkout → staff prepares → ready → customer sees pharmacist's name. Also: emergency screen, ask-info → reply → deny (item stays locked), staff stock change, customers can't call doctor/staff functions, owner can view but not approve. Fixed: confirmations vanished after re-render (approval, reply); now shown in the page's own state. |
+| 2026-11-26 | Full suite | 57 unit + 33 browser/database passed | One run under heavy load had timeouts (auth server 504 while build + dev + Docker competed); reran clean. Test timeouts raised for first-visit compiles on the dev server. |
+| 2026-11-26 | Visual check | fixed | Staff queue overflowed by 379 px on phones (a screen-reader-only header label escaped the table's scroll box; made the box `relative`). Health, watch import, consults, doctor review, staff queue, refills, inventory checked at 1440 and 390 px. |
 
 ## Manual checks still to do
 

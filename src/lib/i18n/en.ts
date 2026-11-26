@@ -6,10 +6,12 @@
  * The `Dictionary` type is derived from this object, which means the
  * Spanish file must contain exactly the same keys or TypeScript will fail.
  */
+import { enHealth } from "./en-health";
 import { enShop } from "./en-shop";
 
 export const en = {
   ...enShop,
+  ...enHealth,
   meta: {
     title: "Goodson Drug Co. — Order online",
     description:
@@ -137,6 +139,7 @@ export const en = {
   },
   errors: {
     ...enShop.orderErrors,
+    ...enHealth.healthErrors,
     generic: "Something went wrong. Please try again.",
     required: "This field is required.",
     email: "Enter an email like name@example.com.",

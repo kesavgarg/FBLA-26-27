@@ -1,9 +1,10 @@
-import { ChevronRight, Package, Pill, ShieldCheck, ShoppingBag, ShoppingCart } from "lucide-react";
+import { ChevronRight, ClipboardPlus, Package, Pill, ShieldCheck, ShoppingBag, ShoppingCart, Stethoscope } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { OrderStatusBadge } from "@/components/orders/order-tracker";
 import { WorkspaceHeader } from "@/components/layout/workspace-header";
 import { getCartCount } from "@/lib/data/cart";
+import { listMyConsults } from "@/lib/data/health";
 import { listMyOrders, listMyPrescriptions } from "@/lib/data/orders";
 import { requireRole } from "@/lib/auth/session";
 import { fillTemplate } from "@/lib/domain/db-errors";
@@ -34,11 +35,13 @@ function ActionCard({ href, icon, title, body, highlight }: { href: string; icon
 export default async function AccountPage() {
   const user = await requireRole(["customer", "staff", "doctor", "owner"], "/account");
   const { t, locale } = await getDictionary();
-  const [orders, prescriptions, cartCount] = await Promise.all([
+  const [orders, prescriptions, cartCount, consults] = await Promise.all([
     listMyOrders(),
     listMyPrescriptions(user.id, locale),
     getCartCount(),
+    listMyConsults(user.id, locale),
   ]);
+  const openConsults = consults.filter((c) => ["submitted", "under_review", "needs_info"].includes(c.status)).length;
 
   const today = storeToday();
   const refillable = prescriptions.filter(
@@ -60,7 +63,7 @@ export default async function AccountPage() {
         <h2 id="quick-actions" className="text-xl font-semibold">
           {t.dashboard.quickActions}
         </h2>
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           <ActionCard href="/shop" icon={<ShoppingBag className="size-5" aria-hidden="true" />} title={a.shop.title} body={a.shop.body} />
           <ActionCard
             href="/account/prescriptions"
@@ -75,6 +78,14 @@ export default async function AccountPage() {
             title={openOrders.length ? a.orders.title : a.ordersNone.title}
             body={openOrders.length ? fillTemplate(a.orders.body, [String(openOrders.length)]) : a.ordersNone.body}
             highlight={openOrders.length > 0}
+          />
+          <ActionCard href="/account/health/check" icon={<ClipboardPlus className="size-5" aria-hidden="true" />} title={a.health.title} body={a.health.body} />
+          <ActionCard
+            href="/account/consults"
+            icon={<Stethoscope className="size-5" aria-hidden="true" />}
+            title={openConsults ? a.consults.title : a.consultsNone.title}
+            body={openConsults ? fillTemplate(a.consults.body, [String(openConsults)]) : a.consultsNone.body}
+            highlight={openConsults > 0}
           />
           {cartCount > 0 ? (
             <ActionCard href="/cart" icon={<ShoppingCart className="size-5" aria-hidden="true" />} title={a.cart.title} body={fillTemplate(a.cart.body, [String(cartCount)])} highlight />
