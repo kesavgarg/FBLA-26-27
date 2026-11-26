@@ -117,11 +117,11 @@ export function AccessibilityMenu({ initial }: { initial: DisplayPrefs }) {
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-controls="a11y-panel"
-        className="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-pill)] border border-line bg-canvas px-3.5 text-sm font-semibold text-ink transition-colors hover:border-action hover:text-action"
+        className="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-[var(--radius-pill)] border border-line bg-canvas px-3 text-sm font-semibold text-ink transition-colors hover:border-action hover:text-action"
       >
         <Accessibility className="size-[1.1rem]" aria-hidden="true" />
-        <span className="hidden sm:inline">{t.prefs.accessibility}</span>
-        <span className="sr-only sm:hidden">{t.prefs.accessibility}</span>
+        <span className="hidden 2xl:inline">{t.prefs.accessibility}</span>
+        <span className="sr-only 2xl:hidden">{t.prefs.accessibility}</span>
       </button>
       {open && (
         <div

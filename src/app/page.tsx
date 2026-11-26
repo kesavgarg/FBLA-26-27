@@ -1,5 +1,6 @@
 import { ArrowRight, Fingerprint } from "lucide-react";
 import { HeroWordmark } from "@/components/home/hero-wordmark";
+import { ShopPreview } from "@/components/home/shop-preview";
 import { LiquidGlass } from "@/components/effects/liquid-glass";
 import { ButtonLink, buttonClasses } from "@/components/ui/button";
 import { getSessionUser } from "@/lib/auth/session";
@@ -10,12 +11,12 @@ import Link from "next/link";
 /**
  * Home page.
  *   1. Hero: navy ground, the interactive "Goodson" wordmark, the promise.
- *   2. Refill band: the three-step refill, on a liquid-glass surface.
- *   3. Heritage: three dates from the store's public history.
- * Phase 3 adds search, featured products, categories and order tracking.
+ *   2. Shop: search, categories and featured products (live stock).
+ *   3. Refill band: the three-step refill, on a liquid-glass surface.
+ *   4. Heritage: three dates from the store's public history.
  */
 export default async function HomePage() {
-  const [{ t }, user] = await Promise.all([getDictionary(), getSessionUser()]);
+  const [{ t, locale }, user] = await Promise.all([getDictionary(), getSessionUser()]);
   const primaryHref = user ? homePathForRole(user.role) : "/login";
 
   return (
@@ -62,8 +63,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 2. Refill band -------------------------------------------------- */}
-      <section className="py-16 lg:py-24" aria-labelledby="refill-title">
+      {/* 2. Shop ---------------------------------------------------------- */}
+      <ShopPreview t={t} locale={locale} />
+
+      {/* 3. Refill band -------------------------------------------------- */}
+      <section className="pb-16 lg:pb-24" aria-labelledby="refill-title">
         <div className="wrap">
           <LiquidGlass className="rounded-[28px] text-white">
             <div className="grid gap-10 p-8 sm:p-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16 lg:p-16">
@@ -76,13 +80,13 @@ export default async function HomePage() {
                 </h2>
                 <p className="max-w-md text-lg text-white/85">{t.home.refillBody}</p>
                 <ButtonLink
-                  href={primaryHref}
+                  href={user ? "/account/prescriptions" : "/login?next=%2Faccount%2Fprescriptions"}
                   size="lg"
                   variant="bright"
                   className="mt-2"
                   icon={<Fingerprint className="size-5" aria-hidden="true" />}
                 >
-                  {user ? t.nav.account : t.home.refillCta}
+                  {user ? t.refills.title : t.home.refillCta}
                 </ButtonLink>
               </div>
               <ol className="flex flex-col gap-3">
@@ -106,7 +110,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 3. Heritage ------------------------------------------------------ */}
+      {/* 4. Heritage ------------------------------------------------------ */}
       <section className="border-t border-line bg-sky-50 py-16 lg:py-24" aria-labelledby="heritage-title">
         <div className="wrap grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
           <div className="flex flex-col gap-4">

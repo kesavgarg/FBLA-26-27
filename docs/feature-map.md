@@ -22,3 +22,24 @@ Updated at the end of every phase. Use it to answer "show us the code for X" in 
 | Input validation (auth) | `src/lib/validation/auth.ts` | `registerSchema`, `dateOfBirthSchema`, `phoneSchema`, `ageOn`, `toFieldErrors` |
 | Role workspaces | `src/app/account`, `staff`, `doctor`, `owner` (each `layout.tsx` calls `requireRole`) | |
 | Unit tests | `tests/unit/roles.test.ts`, `tests/unit/validation-auth.test.ts` | |
+
+## Phase 3 — Shopping, orders, refills
+
+| Feature | Files | Key functions / objects |
+|---|---|---|
+| Atomic checkout, cart rules, cancel, refills (database) | `supabase/migrations/20261126000006_ordering.sql` | `set_cart_quantity`, `place_order` (row locks, Rx gate, allergy, slot, idempotency, order number), `cancel_my_order`, `request_refill`, `next_order_number`, `rx_first_fill_ok`, `allergy_conflict` |
+| Pricing (tax on OTC only, delivery fee, free threshold) | `src/lib/domain/pricing.ts` | `calculateOrderTotals`, `calculateTax`, `calculateDeliveryFee` |
+| Stock display rules | `src/lib/domain/inventory.ts` | `getStockStatus`, `maxOrderableQuantity` |
+| Budget limit (topic: "budget constraints") | `src/lib/domain/budget.ts`, `src/components/shop/budget-form.tsx` | `checkBudget`, `saveBudgetAction` |
+| Refill eligibility | `src/lib/domain/refills.ts` | `getRefillEligibility`, `storeToday` |
+| Order tracker rules | `src/lib/domain/orders.ts`, `src/components/orders/order-tracker.tsx` | `trackerSteps`, `trackerProgress`, `canCustomerCancel` |
+| Catalog search / filter / sort | `src/lib/domain/catalog.ts`, `src/app/shop/page.tsx` | `parseCatalogQuery`, `matchesSearch`, `filterAndSortCatalog` |
+| Pickup time picker | `src/lib/domain/slots.ts`, `src/components/shop/slot-picker.tsx` | `groupSlotsByDay`, `formatStoreDateTime` |
+| Database error → friendly message | `src/lib/domain/db-errors.ts`, `src/lib/actions/result.ts` | `parseDbError`, `fillTemplate`, `dbErrorMessage` |
+| Checkout / quantity validation | `src/lib/validation/ordering.ts` | `quantitySchema`, `checkoutSchema`, `refillSchema` |
+| Data reads | `src/lib/data/catalog.ts`, `cart.ts`, `orders.ts` | `listProducts`, `getShopperContext`, `getCart`, `listMyOrders`, `getMyOrder`, `listOpenSlots`, `listMyPrescriptions` |
+| Server actions | `src/lib/actions/cart.ts`, `orders.ts` | `addToCartAction`, `updateCartLineAction`, `removeCartLineAction`, `placeOrderAction`, `cancelOrderAction`, `requestRefillAction` |
+| Pages | `src/app/shop`, `shop/[slug]`, `cart`, `checkout`, `account`, `account/orders`, `account/orders/[id]`, `account/prescriptions` | |
+| Product art (no stock photos) | `src/components/shop/product-visual.tsx` | `ProductVisual` |
+| English / Spanish shop text | `src/lib/i18n/en-shop.ts`, `es-shop.ts` | |
+| Tests | `tests/unit/ordering-rules.test.ts`, `tests/e2e/ordering-rules.spec.ts`, `tests/e2e/shopping.spec.ts` | includes the two-buyers race test |

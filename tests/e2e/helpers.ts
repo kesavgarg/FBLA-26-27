@@ -1,4 +1,5 @@
 import { expect, type Page } from "@playwright/test";
+import globalSetup from "./global-setup";
 
 /** Demo accounts created by scripts/seed-demo-users.mjs. */
 export const DEMO = {
@@ -43,4 +44,13 @@ export async function addVirtualAuthenticator(page: Page) {
     },
   });
   return { cdp, authenticatorId };
+}
+
+/**
+ * Restore the demo data (local database only). Call in beforeAll of any
+ * test file that changes stock, carts or orders, so files don't depend on
+ * the order they run in.
+ */
+export async function resetDemo() {
+  await globalSetup();
 }

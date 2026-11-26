@@ -97,6 +97,53 @@ export type Database = {
           },
         ];
       };
+      cart_items: {
+        Row: {
+          added_at: string;
+          prescription_id: string | null;
+          product_id: string;
+          profile_id: string;
+          quantity: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          added_at?: string;
+          prescription_id?: string | null;
+          product_id: string;
+          profile_id: string;
+          quantity: number;
+        };
+        Update: {
+          added_at?: string;
+          prescription_id?: string | null;
+          product_id?: string;
+          profile_id?: string;
+          quantity?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_prescription_id_fkey";
+            columns: ["prescription_id"];
+            isOneToOne: false;
+            referencedRelation: "prescriptions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "cart_items_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "cart_items_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       consult_requests: {
         Row: {
           allergies_snapshot: string[];
@@ -529,6 +576,7 @@ export type Database = {
           created_at: string;
           directions: string;
           expires_on: string;
+          first_filled_at: string | null;
           id: string;
           patient_id: string;
           prescriber_id: string | null;
@@ -544,6 +592,7 @@ export type Database = {
           created_at?: string;
           directions: string;
           expires_on: string;
+          first_filled_at?: string | null;
           id?: string;
           patient_id: string;
           prescriber_id?: string | null;
@@ -558,6 +607,7 @@ export type Database = {
           created_at?: string;
           directions?: string;
           expires_on?: string;
+          first_filled_at?: string | null;
           id?: string;
           patient_id?: string;
           prescriber_id?: string | null;
@@ -771,9 +821,11 @@ export type Database = {
       store_settings: {
         Row: {
           delivery_fee_cents: number;
+          delivery_zips: string[];
           free_delivery_threshold_cents: number;
           hours: NonNullable<Json>;
           id: number;
+          max_line_quantity: number;
           pharmacist_name: string;
           slot_capacity: number;
           slot_minutes: number;
@@ -783,9 +835,11 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           delivery_fee_cents?: number;
+          delivery_zips?: string[];
           free_delivery_threshold_cents?: number;
           hours: NonNullable<Json>;
           id?: number;
+          max_line_quantity?: number;
           pharmacist_name?: string;
           slot_capacity?: number;
           slot_minutes?: number;
@@ -794,9 +848,11 @@ export type Database = {
         };
         Update: {
           delivery_fee_cents?: number;
+          delivery_zips?: string[];
           free_delivery_threshold_cents?: number;
           hours?: NonNullable<Json>;
           id?: number;
+          max_line_quantity?: number;
           pharmacist_name?: string;
           slot_capacity?: number;
           slot_minutes?: number;
@@ -964,6 +1020,14 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      allergy_conflict: {
+        Args: { p_patient: string; p_product: string };
+        Returns: string;
+      };
+      cancel_my_order: {
+        Args: { p_order: string; p_reason?: string };
+        Returns: undefined;
+      };
       current_user_role: {
         Args: Record<PropertyKey, never>;
         Returns: Database["public"]["Enums"]["user_role"];
@@ -983,7 +1047,41 @@ export type Database = {
         };
         Returns: undefined;
       };
+      next_order_number: { Args: Record<PropertyKey, never>; Returns: string };
+      place_order: {
+        Args: {
+          p_city?: string;
+          p_fulfillment: Database["public"]["Enums"]["fulfillment_method"];
+          p_idempotency_key: string;
+          p_line1?: string;
+          p_notes?: string;
+          p_slot?: string;
+          p_zip?: string;
+        };
+        Returns: Json;
+      };
+      request_refill: {
+        Args: {
+          p_fulfillment: Database["public"]["Enums"]["fulfillment_method"];
+          p_prescription: string;
+          p_slot?: string;
+        };
+        Returns: string;
+      };
       reset_demo_data: { Args: Record<PropertyKey, never>; Returns: Json };
+      reset_demo_data_base: { Args: Record<PropertyKey, never>; Returns: Json };
+      rx_first_fill_ok: {
+        Args: { p_patient: string; p_product: string; p_rx: string };
+        Returns: boolean;
+      };
+      set_cart_quantity: {
+        Args: {
+          p_prescription?: string;
+          p_product: string;
+          p_quantity: number;
+        };
+        Returns: undefined;
+      };
       set_user_role: {
         Args: {
           new_role: Database["public"]["Enums"]["user_role"];

@@ -53,6 +53,11 @@ These call Supabase directly with the public key, as an attacker could from a br
 | 2026-11-25 | Hosted deploy | found + fixed | Live sign-in bounced back to /login. Hosted Supabase gives the API no table access by default (local did), so the profile lookup failed. Added explicit GRANTs (migration 5) and made the local stack match the cloud (`auto_expose_new_tables: false`). Also granted the service role the admin functions (migration 4). |
 | 2026-11-25 | Full suite after fixes (local, cloud-matching grants) | 22 unit + 12 browser/security passed | |
 | 2026-11-25 | Redesign visual check | passed | Home + sign-in at 1440, 375 and 320 px (local and live): no sideways scroll. Wordmark sizing and glass contrast tuned after screenshots. |
+| 2026-11-26 | Phase 3 unit tests | 44 / 44 passed | Pricing, tax rounding, delivery threshold, stock, budget, refill eligibility, tracker, error parsing, checkout/quantity validation |
+| 2026-11-26 | Phase 3 database rules | 9 / 9 passed | Out of stock, quantity above stock, negative/huge quantity, allergy block, Rx gate (none + someone else's), expired / no-refill / duplicate refill, stock drops once + idempotent resubmit + cancel restores, ZIP outside area, **two buyers racing for the last 2 units: one wins, stock never negative** |
+| 2026-11-26 | Phase 3 customer journey (browser) | found 2 + fixed → 6 / 6 passed | Bugs found: cart error showed a raw `{1}` placeholder (database sent too little detail; fixed in `set_cart_quantity`); refill confirmation disappeared on refresh (now shown on the card). |
+| 2026-11-26 | Full suite | 44 unit + 27 browser/database passed | |
+| 2026-11-26 | Visual check | fixed | Checkout overflowed by 391 px on phones (fieldsets grow to fit the pickup-day row; added `min-w-0`). Dashboard, product, cart, checkout, prescriptions, orders checked at 1440 and 390 px. |
 
 ## Manual checks still to do
 

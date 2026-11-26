@@ -1,10 +1,12 @@
 import type { Dictionary } from "./en";
+import { esShop } from "./es-shop";
 
 /**
  * Spanish dictionary. Typed as `Dictionary`, so a missing or extra key is a
  * compile error. Translations use plain, neutral Latin American Spanish.
  */
 export const es: Dictionary = {
+  ...esShop,
   meta: {
     title: "Goodson Drug Co. — Pedidos en línea",
     description:
@@ -132,6 +134,7 @@ export const es: Dictionary = {
     security: "Seguridad",
   },
   errors: {
+    ...esShop.orderErrors,
     generic: "Algo salió mal. Inténtelo de nuevo.",
     required: "Este campo es obligatorio.",
     email: "Ingrese un correo como nombre@ejemplo.com.",
