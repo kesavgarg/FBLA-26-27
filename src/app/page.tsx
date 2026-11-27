@@ -1,4 +1,4 @@
-import { ArrowRight, Fingerprint } from "lucide-react";
+import { ArrowRight, ClipboardPlus, Fingerprint, MessageCircleQuestion, Package } from "lucide-react";
 import { HeroWordmark } from "@/components/home/hero-wordmark";
 import { ShopPreview } from "@/components/home/shop-preview";
 import { LiquidGlass } from "@/components/effects/liquid-glass";
@@ -66,6 +66,38 @@ export default async function HomePage() {
       {/* 2. Shop ---------------------------------------------------------- */}
       <ShopPreview t={t} locale={locale} />
 
+      {/* 2b. Shortcuts ------------------------------------------------- */}
+      <section className="pb-16 lg:pb-24" aria-labelledby="shortcuts-title">
+        <div className="wrap flex flex-col gap-5">
+          <h2 id="shortcuts-title" className="text-xl font-semibold">
+            {t.home.shortcutsTitle}
+          </h2>
+          <ul className="grid gap-5 md:grid-cols-3">
+            {[
+              { href: user ? "/account/orders" : "/login?next=%2Faccount%2Forders", icon: <Package className="size-5" aria-hidden="true" />, ...t.home.shortcuts.track },
+              { href: user ? "/account/health/check" : "/login?next=%2Faccount%2Fhealth%2Fcheck", icon: <ClipboardPlus className="size-5" aria-hidden="true" />, ...t.home.shortcuts.check },
+              { href: "/help", icon: <MessageCircleQuestion className="size-5" aria-hidden="true" />, ...t.home.shortcuts.help },
+            ].map((card) => (
+              <li key={card.href}>
+                <Link
+                  href={card.href}
+                  className="group flex h-full items-start gap-4 rounded-[var(--radius-card)] border border-line bg-canvas p-6 shadow-soft transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:shadow-lift"
+                >
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-sky-100 text-action">{card.icon}</span>
+                  <span className="flex flex-col gap-1">
+                    <span className="flex items-center gap-1.5 text-lg font-semibold">
+                      {card.title}
+                      <ArrowRight className="size-4 text-action transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                    </span>
+                    <span className="text-ink/80">{card.body}</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* 3. Refill band -------------------------------------------------- */}
       <section className="pb-16 lg:pb-24" aria-labelledby="refill-title">
         <div className="wrap">
@@ -118,6 +150,10 @@ export default async function HomePage() {
               {t.home.heritageTitle}
             </h2>
             <p className="max-w-md text-lg text-ink/80">{t.home.heritageBody}</p>
+            <Link href="/about" className="inline-flex min-h-11 items-center gap-1.5 self-start font-semibold text-action hover:underline">
+              {t.home.readStory}
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </Link>
           </div>
           <ol className="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-sky-200 bg-sky-200 sm:grid-cols-3">
             {t.home.heritage.map((item) => (

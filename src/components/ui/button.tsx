@@ -18,7 +18,7 @@ export type ButtonSize = "md" | "lg";
 const BASE =
   "inline-flex items-center justify-center gap-2 rounded-[var(--radius-pill)] font-semibold " +
   "transition-[background-color,box-shadow,transform,color] duration-200 ease-[var(--ease-out-soft)] " +
-  "active:scale-[0.98] disabled:pointer-events-none disabled:opacity-55 select-none whitespace-nowrap";
+  "active:scale-[0.98] disabled:pointer-events-none disabled:opacity-55 select-none text-center";
 
 const VARIANTS: Record<ButtonVariant, string> = {
   primary: "bg-action text-white shadow-soft hover:bg-action-strong hover:shadow-lift",
@@ -30,8 +30,10 @@ const VARIANTS: Record<ButtonVariant, string> = {
 };
 
 const SIZES: Record<ButtonSize, string> = {
-  md: "min-h-11 px-5 text-[0.94rem]",
-  lg: "min-h-13 px-7 text-base",
+  // Vertical padding keeps a button tidy if its text wraps onto two lines
+  // (narrow phones, or Large Text mode).
+  md: "min-h-11 px-5 py-2 text-[0.94rem]",
+  lg: "min-h-13 px-7 py-2.5 text-base",
 };
 
 /** Build the class string so links can look exactly like buttons. */

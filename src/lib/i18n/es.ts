@@ -1,5 +1,6 @@
 import type { Dictionary } from "./en";
 import { esHealth } from "./es-health";
+import { esInfo } from "./es-info";
 import { esShop } from "./es-shop";
 
 /**
@@ -9,6 +10,7 @@ import { esShop } from "./es-shop";
 export const es: Dictionary = {
   ...esShop,
   ...esHealth,
+  ...esInfo,
   meta: {
     title: "Goodson Drug Co. — Pedidos en línea",
     description:
@@ -24,6 +26,13 @@ export const es: Dictionary = {
     reopened: "Reabrió en W. Maple St.",
   },
   home: {
+    shortcutsTitle: "Accesos rápidos",
+    shortcuts: {
+      track: { title: "Seguir un pedido", body: "Vea dónde está su pedido, paso a paso." },
+      check: { title: "Revisar sus síntomas", body: "Unas preguntas y un posible siguiente paso. Solo demostración." },
+      help: { title: "Hacer una pregunta", body: "El asistente responde en inglés o español." },
+    },
+    readStory: "Lea nuestra historia",
     heroTitle: "Su farmacia de siempre, ahora en línea",
     heroBody:
       "Pida productos de salud, resurta recetas y elija recoger o entrega a domicilio desde el centro de Cumming.",

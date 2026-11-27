@@ -7,11 +7,13 @@
  * Spanish file must contain exactly the same keys or TypeScript will fail.
  */
 import { enHealth } from "./en-health";
+import { enInfo } from "./en-info";
 import { enShop } from "./en-shop";
 
 export const en = {
   ...enShop,
   ...enHealth,
+  ...enInfo,
   meta: {
     title: "Goodson Drug Co. — Order online",
     description:
@@ -28,6 +30,13 @@ export const en = {
     reopened: "Reopened on W. Maple St.",
   },
   home: {
+    shortcutsTitle: "Quick links",
+    shortcuts: {
+      track: { title: "Track an order", body: "See where your order is, step by step." },
+      check: { title: "Check your symptoms", body: "A few questions and a possible next step. Demo only." },
+      help: { title: "Ask a question", body: "The help assistant answers in English or Spanish." },
+    },
+    readStory: "Read our story",
     heroTitle: "Your hometown pharmacy, now open online",
     heroBody:
       "Order everyday health essentials, refill prescriptions and choose pickup or delivery from downtown Cumming.",

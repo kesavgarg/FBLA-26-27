@@ -42,7 +42,7 @@ export async function ShopPreview({ t, locale }: { t: Dictionary; locale: Locale
             <label htmlFor="home-search" className="sr-only">
               {t.shop.searchLabel}
             </label>
-            <div className="relative flex-1">
+            <div className="relative min-w-0 flex-1">
               <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-muted" aria-hidden="true" />
               <input
                 id="home-search"

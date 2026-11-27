@@ -35,7 +35,7 @@ export function MobileMenu({ links, signedIn }: { links: NavLink[]; signedIn: bo
   }, [open]);
 
   return (
-    <div className="xl:hidden">
+    <div className="2xl:hidden">
       <button
         type="button"
         onClick={() => setOpen(true)}

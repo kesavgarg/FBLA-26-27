@@ -140,6 +140,15 @@ body {
   }
 }
 
+/*
+ * Grid columns may shrink below their content's natural width (CSS grid
+ * items default to min-width: auto, which made long forms and charts push
+ * the page wider than a phone screen). Content inside wraps or scrolls.
+ */
+.grid > * {
+  min-width: 0;
+}
+
 /* Numbers in prices and tables line up. */
 .tabular {
   font-variant-numeric: tabular-nums;

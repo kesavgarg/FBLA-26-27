@@ -28,7 +28,10 @@ export function navLinksFor(t: Dictionary, role: Role | null): NavLink[] {
     links.push({ href: "/account/orders", label: t.nav.orders });
     links.push({ href: "/account/prescriptions", label: t.nav.refills });
     links.push({ href: "/account/health", label: t.nav.health });
+  } else {
+    links.push({ href: "/about", label: t.nav.about });
   }
+  links.push({ href: "/help", label: t.nav.help });
   if (role === "customer") links.push({ href: "/account", label: t.nav.account });
   if (role === "staff" || role === "owner") links.push({ href: "/staff", label: t.nav.staff });
   if (role === "doctor" || role === "owner") links.push({ href: "/doctor", label: t.nav.doctor });
@@ -42,14 +45,14 @@ export async function SiteHeader({ display }: { display: DisplayPrefs }) {
   const cartCount = user ? await getCartCount() : 0;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-canvas/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 print:hidden border-b border-line bg-canvas/90 backdrop-blur-md">
       <div className="wrap flex h-[4.5rem] items-center gap-3 sm:gap-6">
         <a href="#main" className="skip-link">
           {t.nav.skip}
         </a>
         <Logo />
 
-        <nav aria-label={t.nav.mainNav} className="hidden flex-1 xl:block">
+        <nav aria-label={t.nav.mainNav} className="hidden flex-1 2xl:block">
           <ul className="flex items-center gap-1">
             {links.map((link) => (
               <li key={link.href}>
@@ -89,14 +92,14 @@ export async function SiteHeader({ display }: { display: DisplayPrefs }) {
             </Link>
           )}
           {user ? (
-            <form action={signOutAction} className="hidden xl:block">
+            <form action={signOutAction} className="hidden lg:block">
               <button type="submit" className={buttonClasses("secondary")}>
                 <LogOut className="size-4" aria-hidden="true" />
                 {t.nav.signOut}
               </button>
             </form>
           ) : (
-            <div className="hidden xl:block">
+            <div className="hidden lg:block">
               <Link href="/login" className={buttonClasses("primary")}>
                 <UserRound className="size-4" aria-hidden="true" />
                 {t.nav.signIn}

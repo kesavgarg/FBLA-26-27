@@ -1,0 +1,13 @@
+"use client";
+
+import { Printer } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+/** Opens the browser's print dialog (Save as PDF works from there). */
+export function PrintButton() {
+  return (
+    <Button variant="secondary" onClick={() => window.print()} icon={<Printer className="size-4" aria-hidden="true" />}>
+      Print or save as PDF
+    </Button>
+  );
+}

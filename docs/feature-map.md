@@ -60,3 +60,24 @@ Updated at the end of every phase. Use it to answer "show us the code for X" in 
 | Staff screens + actions | `src/app/staff`, `staff/orders/[id]`, `staff/refills`, `staff/inventory`, `src/components/staff/*`, `src/lib/data/staff.ts`, `src/lib/actions/staff.ts` | `listOrdersForStaff` (filters + search), `getOrderForStaff` (safety check), `ActionForm`, `setOrderStatusAction`, `setRefillStatusAction`, `updateProductAction`, `addProductAction`, `sendOrderMessageAction` |
 | English / Spanish health text | `src/lib/i18n/en-health.ts`, `es-health.ts` | (staff and doctor screens are English-only) |
 | Tests | `tests/unit/health-rules.test.ts`, `tests/e2e/workflow.spec.ts` | full demo sequence + deny + needs-info + emergency + inventory + role protection |
+
+## Phase 5 — Owner analytics, reports, presenter tools, help, about
+
+| Feature | Files | Key functions / objects |
+|---|---|---|
+| Analytics math (store time zone, date ranges, CSV) | `src/lib/domain/analytics.ts` | `computeDashboard`, `validateRange`, `daysInRange`, `buildReport`, `toCsv` |
+| Analytics data read (owner only) | `src/lib/data/analytics.ts` | `loadAnalyticsData` |
+| Owner dashboard (simulated data, labelled) | `src/app/owner/page.tsx`, `src/components/owner/date-range-filter.tsx` | `parseRange`, `DateRangeFilter` |
+| Charts (plain SVG, palette checked for contrast) | `src/components/charts/charts.tsx` | `ColumnChart`, `RankedBars`, `SplitBar`, `ValueFormat` |
+| Reports + CSV export + print | `src/lib/reports.ts`, `src/app/owner/reports/page.tsx`, `owner/reports/export/route.ts`, `src/components/owner/print-button.tsx` | `parseReportOptions`, `runReport`, `PrintButton` |
+| Audit log viewer | `src/app/owner/audit/page.tsx` | |
+| User roles | `src/app/owner/users/page.tsx`, `src/lib/actions/owner.ts` | `setUserRoleAction` → database `set_user_role` |
+| Store settings (tax, delivery fee, free threshold) | `src/app/owner/settings/page.tsx` | `saveStoreSettingsAction`, `SettingsForm` |
+| Usability testing log (consent + code, no names) | `src/app/owner/usability/page.tsx` | `recordUsabilitySessionAction`, `UsabilitySessionForm` |
+| Presenter guide + demo reset | `src/app/owner/demo/page.tsx` | `resetDemoAction`, `ResetDemoForm` |
+| Owner navigation | `src/components/owner/owner-nav.tsx` | `OwnerNav` |
+| Help assistant (runs in the browser, no AI service, no medical advice) | `src/lib/domain/help.ts`, `src/components/help/help-assistant.tsx`, `src/app/help/page.tsx` | `HELP`, `normalizeText`, `rankHelpEntries`, `answerQuestion`, `HelpAssistant` |
+| About (heritage timeline) and Privacy pages | `src/app/about/page.tsx`, `src/app/privacy/page.tsx` | |
+| English / Spanish info text | `src/lib/i18n/en-info.ts`, `es-info.ts` | (owner screens are English-only) |
+| Phone layout fixes | `src/app/globals.css` (`.grid > * { min-width: 0 }`), `src/components/ui/button.tsx` (buttons can wrap) | |
+| Tests | `tests/unit/analytics.test.ts`, `tests/unit/help.test.ts`, `tests/e2e/owner-and-info.spec.ts` | |

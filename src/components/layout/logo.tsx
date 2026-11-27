@@ -25,7 +25,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
         <path d="M30 9.5v7M26.5 13h7" stroke="var(--color-action)" strokeWidth="2.4" strokeLinecap="round" />
       </svg>
       {!compact && (
-        <span className="flex flex-col leading-none">
+        <span className="flex flex-col leading-none max-[359px]:sr-only">
           <span className="font-serif text-[1.3rem] font-semibold tracking-tight text-ink">Goodson</span>
           <span className="mt-0.5 text-[0.8rem] font-medium whitespace-nowrap text-muted">
             Drug Co.<span className="hidden sm:inline"> · Cumming, GA</span>
