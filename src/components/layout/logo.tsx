@@ -7,7 +7,7 @@ import Link from "next/link";
  */
 export function Logo({ compact = false }: { compact?: boolean }) {
   return (
-    <Link href="/" className="group inline-flex items-center gap-3 rounded-lg" aria-label="Goodson Drug Co. home">
+    <Link href="/" className="group inline-flex items-center gap-3 rounded-lg" aria-label={compact ? "Goodson Drug Co. home" : undefined}>
       <svg viewBox="0 0 40 40" className="size-10 shrink-0" aria-hidden="true">
         <rect width="40" height="40" rx="11" fill="var(--color-sky-100)" />
         <rect x="0.5" y="0.5" width="39" height="39" rx="10.5" fill="none" stroke="var(--color-sky-300)" />
@@ -25,11 +25,12 @@ export function Logo({ compact = false }: { compact?: boolean }) {
         <path d="M30 9.5v7M26.5 13h7" stroke="var(--color-action)" strokeWidth="2.4" strokeLinecap="round" />
       </svg>
       {!compact && (
-        <span className="flex flex-col leading-none max-[359px]:sr-only">
+        <span className="logo-words flex flex-col leading-none max-[359px]:sr-only">
           <span className="font-serif text-[1.3rem] font-semibold tracking-tight text-ink">Goodson</span>
           <span className="mt-0.5 text-[0.8rem] font-medium whitespace-nowrap text-muted">
             Drug Co.<span className="hidden sm:inline"> · Cumming, GA</span>
           </span>
+          <span className="sr-only"> (home)</span>
         </span>
       )}
     </Link>

@@ -60,6 +60,7 @@ export const es: Dictionary = {
     banner:
       "Demostración estudiantil con pacientes, productos y precios ficticios. No está afiliada ni respaldada por Goodson Drug Co.",
     notMedicalAdvice: "Solo demostración. No es consejo médico.",
+    noticeLabel: "Aviso de demostración",
   },
   nav: {
     skip: "Saltar al contenido",

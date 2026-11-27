@@ -32,6 +32,10 @@ npm run test:e2e          # browser + database tests (Playwright)
 | 17. Accessibility mode | `accessibility mode enlarges text and persists after reload` |
 | — | `signed-out visitors are sent to sign in`, `each role lands in its own workspace` |
 
+### Checklist tests — `tests/e2e/checklist.spec.ts`
+
+Added in Phase 6 to cover the guide's remaining checklist items: duplicate email, empty-cart checkout, cancel after preparing and status order, quotes / HTML / SQL-style text stored as plain text (and over-long text refused by the database itself), keyboard-only shopping, and a 320 px window.
+
 ### Database security tests — `tests/e2e/database-security.spec.ts`
 
 These call Supabase directly with the public key, as an attacker could from a browser console:
@@ -40,6 +44,31 @@ These call Supabase directly with the public key, as an attacker could from a br
 - A customer sees only their own profile, orders and prescriptions, and no audit log.
 - A customer cannot run the demo reset or insert a prescription.
 - A signed-out visitor can read products but no private table.
+
+## Build guide checklist (section 11) → tests
+
+| Area | Case | Covered by |
+|---|---|---|
+| Accounts | Duplicate email | `checklist.spec.ts` › registering with an email that already has an account |
+| | Wrong password, empty fields | `auth.spec.ts` › wrong password…, registration validates input… |
+| | Role access | `auth.spec.ts` › a customer cannot open staff, doctor or owner pages; `owner-and-info.spec.ts` › customers cannot open owner pages |
+| Cart and pricing | Empty cart checkout | `checklist.spec.ts` › checkout with an empty cart… |
+| | Quantity 0 / negative / above stock | `ordering-rules.spec.ts` › negative or huge quantity, quantity above stock; `shopping.spec.ts` › full order |
+| | Tax and rounding, delivery fee threshold | `ordering-rules.test.ts` (unit); `shopping.spec.ts` › cart totals |
+| Orders | Double-click on submit | `ordering-rules.spec.ts` › repeat submit returns the same order |
+| | Cancel after preparing, status order | `checklist.spec.ts` › orders move through statuses in order… |
+| | Stock reduced exactly once | `ordering-rules.spec.ts` › checkout lowers stock exactly once |
+| Rx gate | No approval, another patient's Rx, expired, no refills | `ordering-rules.spec.ts` › prescription item…, expired prescription… |
+| Health flow | Each triage outcome, red flag | `health-rules.test.ts` (unit); `workflow.spec.ts` › red-flag answer shows the emergency screen |
+| | Doctor denies, asks for info | `workflow.spec.ts` › alternative demo |
+| | Patient allergic to item | `ordering-rules.spec.ts` › allergy match is blocked; `workflow.spec.ts` › main demo (penicillin class) |
+| Input safety | Long text, quotes, special characters, SQL-style input | `validation-auth.test.ts` (unit); `checklist.spec.ts` › quotes, HTML and SQL-style text… |
+| Usability | Text-size mode | `auth.spec.ts` › accessibility mode enlarges text; Large Text visual sweep below |
+| | Keyboard only | `checklist.spec.ts` › keyboard only: skip link, then add to cart |
+| | Small window | `checklist.spec.ts` › a very small window (320 px)…; visual sweeps below |
+| | Clear error messages | checked in every form test above (each asserts the exact message) |
+| Persistence | Reload keeps data; reset restores demo | `shopping.spec.ts` › persists after a refresh; `owner-and-info.spec.ts` › demo reset works |
+| Demo | "Demo runs cleanly three times in a row" | `workflow.spec.ts` › main demo, run with `--repeat-each=3` (results below) |
 
 ## Results log
 
@@ -66,9 +95,19 @@ These call Supabase directly with the public key, as an attacker could from a br
 | 2026-11-26 | Phase 5 owner + info (browser) | found 2 + fixed → 9 / 9 passed | Dashboard + date validation, reports + CSV download, demo reset (audited), grant/remove staff role takes effect, settings change the tax in the cart, usability log needs consent + code, customer blocked from owner pages and CSV, help assistant in both languages, About timeline in both languages. Fixed: owner dashboard crashed (a function was passed from the server to a client chart; now passed by name); help assistant missed "cancelo" and "refills" (added plural/verb matching). |
 | 2026-11-26 | Full suite | 72 unit + 41 / 42 → fixed → 42 / 42 browser/database passed | The passkey test caught a regression from the header fix below: on 1280 px laptops "Sign out" had moved into the menu. Sign in / Sign out now stay in the header from 1024 px; rechecked 1280 and 1024 px with no overflow. Production build passed (37 routes). |
 | 2026-11-26 | Visual check | fixed | Swept every public and role page at 1440, 1280, 390 and 320 px. Fixed: owner's header links overflowed at 1280 px (full menu now from 1536 px, menu button below); help and owner pages overflowed on phones (grid items now allowed to shrink); signed-in header +21 px at 320 px (wordmark text hidden under 360 px, still read by screen readers); Security page +42 px at 320 px (buttons may now wrap). After fixes no page scrolls sideways at any of the four widths. |
+| 2026-11-26 | Phase 6 checklist tests | 6 / 6 passed | First run passed. Tightened the long-text test to check the exact database constraint that refuses it. |
+| 2026-11-26 | Main demo three times in a row | 3 / 3 passed | `npx playwright test workflow.spec.ts -g "main demo" --repeat-each=3` |
+| 2026-11-26 | Accessibility scan (axe-core 4.14, WCAG 2.1 A/AA + best practices) | found 5 + fixed → 0 issues | 29 pages across all four roles, in normal mode and with High Contrast + Large Text on. Fixed: logo link's spoken name didn't match its text; demo banner sat outside any landmark; skipped heading levels (shop, Security); chart bars used a label not allowed on that element; order-list links hid the date, status and total from screen readers. |
+| 2026-11-26 | Large Text visual check | found 2 + fixed | Every page at 1280 and 390 px in Large Text mode. Fixed: signed-in header 6 px too wide on phones (wordmark words now hidden there, still read aloud); health page 47 px too wide (a screen-reader table ignored its 1 px width; wrapped it). After fixes: no sideways scroll. |
+| 2026-11-26 | Phase 6 full suite | 72 unit + 47 / 48 → fixed → 48 / 48 browser/database passed | The one failure was the test itself: the owner chart became a labelled group of bars (accessibility fix), so the test now looks for a group, not an image. Lint, typecheck and production build passed. |
 
 ## Manual checks still to do
 
-- **Real Touch ID** on the presentation Mac (Safari and Chrome). Automation uses a virtual authenticator because a real fingerprint prompt can't be scripted.
-- Passkey sign-in on the deployed Vercel site (passkeys are tied to each domain) — needs passkeys switched on in the hosted Supabase dashboard first.
-- Password sign-in for each role on the live site (done by the team, not automated against production).
+These can't be automated honestly, so the team does them by hand and records the result here:
+
+- **Real Touch ID** on the presentation Mac, in Safari and Chrome. Automation uses a virtual authenticator because a real fingerprint prompt can't be scripted.
+- **Passkey sign-in on the live site** for each demo account (passkeys are tied to each website address).
+- **Password sign-in for each role on the live site**, and a click through every owner page (Claude did not sign in to the live site).
+- **VoiceOver spot check** (Cmd + F5 on a Mac): sign in, add to cart, check out. The axe scan finds code problems, not how it feels to listen to.
+- **Usability sessions** with real people, recorded in Owner → Usability tests. It starts empty; nothing is filled in ahead of time.
+- **Rehearse the demo 3+ times with a timer** and record the backup video (see `docs/presentation.md`).

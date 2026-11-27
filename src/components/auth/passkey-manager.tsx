@@ -75,6 +75,9 @@ export function PasskeyManager({ setupMode = false }: { setupMode?: boolean }) {
     await loadPasskeys();
   }
 
+  // In setup mode the list sits under an h2; on the Security page, under the h1.
+  const ListHeading = setupMode ? "h3" : "h2";
+
   const formatDate = (iso?: string) =>
     iso
       ? new Intl.DateTimeFormat(locale === "es" ? "es-US" : "en-US", { dateStyle: "medium" }).format(new Date(iso))
@@ -96,7 +99,7 @@ export function PasskeyManager({ setupMode = false }: { setupMode?: boolean }) {
       </div>
 
       <div>
-        <h3 className="mb-3 text-base font-semibold">{t.auth.passkeyList}</h3>
+        <ListHeading className="mb-3 text-base font-semibold">{t.auth.passkeyList}</ListHeading>
         {passkeys === null ? (
           <div className="h-16 animate-pulse rounded-[var(--radius-field)] bg-sky-50" aria-hidden="true" />
         ) : passkeys.length === 0 ? (

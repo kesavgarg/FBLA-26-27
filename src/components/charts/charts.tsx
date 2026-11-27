@@ -101,7 +101,7 @@ export function ColumnChart({
     <figure className="flex flex-col gap-3">
       <figcaption className="font-semibold">{title}</figcaption>
       <div className="relative">
-        <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="img" aria-label={title}>
+        <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="group" aria-label={title}>
           {ticks.map((t) => (
             <g key={t}>
               <line x1={pad.left} x2={width - pad.right} y1={y(t)} y2={y(t)} stroke="var(--color-line)" />
@@ -124,6 +124,7 @@ export function ColumnChart({
                   height={innerH}
                   fill="transparent"
                   tabIndex={0}
+                  role="img"
                   aria-label={`${d.label}: ${fmt(d.value)}`}
                   onMouseEnter={() => setActive(i)}
                   onMouseLeave={() => setActive(null)}

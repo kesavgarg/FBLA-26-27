@@ -63,6 +63,7 @@ export const en = {
     banner:
       "Student demo with fictional patients, products and prices. Not affiliated with or endorsed by Goodson Drug Co.",
     notMedicalAdvice: "Demo only. Not medical advice.",
+    noticeLabel: "Demo notice",
   },
   nav: {
     skip: "Skip to content",

@@ -127,6 +127,19 @@ body {
   white-space: nowrap;
 }
 
+/* Large Text on a phone: the header keeps the "G" tile but hides the
+   wordmark words (screen readers still read them) so the buttons fit. */
+@media (max-width: 439px) {
+  html[data-text="large"] .logo-words {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
 /* Shared content width: equal left and right edges on every page. */
 .wrap {
   width: 100%;

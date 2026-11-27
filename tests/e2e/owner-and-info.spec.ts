@@ -15,7 +15,7 @@ const admin = () => createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.
 test("owner dashboard shows simulated analytics and validates dates", async ({ page }) => {
   await signInWithPassword(page, DEMO.owner);
   await expect(page.getByText("Simulated revenue")).toBeVisible();
-  await expect(page.getByRole("img", { name: "Orders per day" })).toBeVisible();
+  await expect(page.getByRole("group", { name: "Orders per day" })).toBeVisible();
   await expect(page.getByText("Pickup vs delivery")).toBeVisible();
   await page.getByRole("link", { name: "Last 7 days" }).click();
   await expect(page).toHaveURL(/from=.*&to=/);

@@ -18,11 +18,14 @@ function OrderRow({ order, t, locale }: { order: OrderSummary; t: Dictionary; lo
     <li>
       <Link
         href={`/account/orders/${order.id}`}
-        aria-label={fillTemplate(t.orders.view, [order.orderNumber])}
         className="flex items-center gap-4 rounded-[var(--radius-card)] border border-line bg-canvas p-5 transition-[box-shadow,transform] hover:-translate-y-0.5 hover:shadow-lift"
       >
         <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:gap-6">
-          <p className="tabular font-semibold">{order.orderNumber}</p>
+          {/* The whole row is the link, so screen readers hear the number, date, items, status and total. */}
+          <p className="tabular font-semibold">
+            <span className="sr-only">{fillTemplate(t.orders.view, [""])}</span>
+            {order.orderNumber}
+          </p>
           <p className="text-sm text-muted">
             {fillTemplate(t.orders.placedOn, [placed])} ·{" "}
             {order.itemCount === 1 ? t.orders.itemsOne : fillTemplate(t.orders.items, [String(order.itemCount)])}

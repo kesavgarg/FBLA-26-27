@@ -47,17 +47,20 @@ export function SeverityChart({ logs, title, dateLabel }: { logs: SymptomLog[]; 
           </g>
         ))}
       </svg>
-      <table className="sr-only">
-        <caption>{title}</caption>
-        <tbody>
-          {points.map((log) => (
-            <tr key={log.id}>
-              <th scope="row">{dateLabel(log.loggedAt)}</th>
-              <td>{log.severity}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Tables ignore sr-only's 1px width, so the wrapper hides it instead. */}
+      <div className="sr-only">
+        <table>
+          <caption>{title}</caption>
+          <tbody>
+            {points.map((log) => (
+              <tr key={log.id}>
+                <th scope="row">{dateLabel(log.loggedAt)}</th>
+                <td>{log.severity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </figure>
   );
 }

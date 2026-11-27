@@ -81,3 +81,12 @@ Updated at the end of every phase. Use it to answer "show us the code for X" in 
 | English / Spanish info text | `src/lib/i18n/en-info.ts`, `es-info.ts` | (owner screens are English-only) |
 | Phone layout fixes | `src/app/globals.css` (`.grid > * { min-width: 0 }`), `src/components/ui/button.tsx` (buttons can wrap) | |
 | Tests | `tests/unit/analytics.test.ts`, `tests/unit/help.test.ts`, `tests/e2e/owner-and-info.spec.ts` | |
+
+## Phase 6 — Final checks, accessibility, documentation
+
+| Change | Files | Notes |
+|---|---|---|
+| Remaining checklist tests | `tests/e2e/checklist.spec.ts` | duplicate email, empty cart, status order, quotes / SQL-style text, keyboard only, 320 px |
+| Accessibility fixes from the axe scan | `src/components/layout/logo.tsx`, `site-footer.tsx` (`DemoBanner` is now a labelled `aside`), `src/app/shop/page.tsx`, `src/components/auth/passkey-manager.tsx`, `src/components/charts/charts.tsx`, `src/app/account/orders/page.tsx` | link names match visible text, landmarks, heading order, chart bar roles |
+| Large Text on phones | `src/app/globals.css` (`.logo-words`), `src/components/health/severity-chart.tsx` | header fits; hidden data table no longer widens the page |
+| Documentation | `README.md`, `docs/user-guide.md`, `docs/presentation.md`, `docs/testing.md` | user guide, 7-minute plan + judge Q&A, checklist → test map |

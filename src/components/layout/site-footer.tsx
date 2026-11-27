@@ -64,10 +64,10 @@ export async function SiteFooter() {
 export async function DemoBanner() {
   const { t } = await getDictionary();
   return (
-    <div className="bg-ink text-white">
+    <aside aria-label={t.demo.noticeLabel} className="bg-ink text-white">
       <p className="wrap py-2 text-center text-[0.84rem] leading-snug">
         {t.demo.banner}
       </p>
-    </div>
+    </aside>
   );
 }

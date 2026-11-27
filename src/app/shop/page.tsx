@@ -101,13 +101,18 @@ export default async function ShopPage({ searchParams }: PageProps<"/shop">) {
           </ButtonLink>
         </div>
       ) : (
-        <ul className="grid grid-cols-1 gap-6 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {products.map((product) => (
-            <li key={product.id}>
-              <ProductCard product={product} t={t} />
-            </li>
-          ))}
-        </ul>
+        <section aria-labelledby="results-title">
+          <h2 id="results-title" className="sr-only">
+            {t.shop.title}
+          </h2>
+          <ul className="grid grid-cols-1 gap-6 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {products.map((product) => (
+              <li key={product.id}>
+                <ProductCard product={product} t={t} />
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
     </div>
   );
